@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vote</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+<style>
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
+</style>
+<script src="./node_modules/web3/dist/web3.min.js"></script>
+</head>
+<body>
+  <center>
+  <h1> VOTE </h1>
+<div class="container">
+  <div class="card">
+<img src="images/img3.jpeg"style="width:20%">
+<div class="container">
+ <h4><b>Zick Nabo</b></h4>
+ <button id="vote1">vote</button>
+</div
+
+
+<div class="container">
+  <div class="card">
+<img src="images/img1.jpeg"style="width:20%">
+<div class="container">
+ <h4><b>Fill Hanney</b></h4>
+ <button id="vote2">vote</button>
+</div
+
+
+<div class="container">
+  <div class="card">
+<img src="images/img2.jpeg"style="width:20%">
+<div class="container">
+ <h4><b>John Doe</b></h4>
+ <button id="vote3">vote</button>
+</div
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+       if(typeof web3 !== 'undefined') {
+         console.log("Unlock MetaMask");
+         web3 = new Web3(web3.currentProvider);
+       }
+       else {
+         console.log("Install MetaMask");
+         web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:3000"));
+       }
+       web3.version.getNetwork((err, netId) => {
+  switch (netId) {
+    case "1":
+      console.log('This is mainnet')
+      break
+    case "2":
+      console.log('This is the deprecated Morden test network.')
+      break
+    case "3":
+      console.log('This is the ropsten test network.')
+      break
+    case "4":
+      console.log('This is the Rinkeby test network.')
+      break
+    case "42":
+      console.log('This is the Kovan test network.')
+      break
+    default:
+      console.log('This is an unknown network.')
+  }
+})
+
+       web3.eth.defaultAccount=web3.eth.accounts[0];
+
+       var testContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "add_applicant",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "get_next_id",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "vote",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "show_applicants",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "show_count_of_votes",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "show_my_vote",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]);
+
+
+var test = testContract.at("0x3d6a8972326fb8444b387ba0177609299616fd5d");
+console.log(test);
+
+
+
+
+$("#vote1").click(function() {
+  test.vote(1,(error,result) => (console.log(result)));
+});
+
+
+$("#vote2").click(function() {
+  test.vote(2,(error,result) => (console.log(result)));
+});
+
+$("#vote3").click(function() {
+  test.vote(3,(error,result) => (console.log(result)));
+});
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
